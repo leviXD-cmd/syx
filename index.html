@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyxStudio - Digital Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --black: #0a0a0a;
+            --dark-black: #050505;
+            --red: #ff0000;
+            --dark-red: #990000;
+            --white: #ffffff;
+            --light-gray: #b0b0b0;
+            --gray: #f5f5f5;
+            --transition: all 0.3s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--gray);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--red);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 40px 0;
+            }
+        }
+
+        /* Reusable Components */
+        .highlight {
+            color: var(--red);
+            position: relative;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--red);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-subtitle {
+            color: var(--red);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        /* Auto Display Grid */
+        .auto-display-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .auto-display-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .auto-display-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+        }
+
+        .auto-display-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 15px;
+            transition: var(--transition);
+        }
+
+        .auto-display-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: transparent;
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        /* Service Card Links */
+        .service-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0);
+            backdrop-filter: blur(0);
+            transition: var(--transition);
+            padding: 20px 0;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .hamburger {
+            display: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--black);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+                margin: 10px 0;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(10, 10, 10, 0.9),
+                rgba(10, 10, 10, 0.7)
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        .hero-subtitle {
+            color: var(--red);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-title {
+            color: var(--white);
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--black);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(40, 40, 40, 0.7);
+            border-color: var(--red);
+        }
+
+        .service-icon {
+            color: var(--red);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .service-title {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-description {
+            color: var(--light-gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Video Editing Section */
+        .video-editing {
+            background: rgba(20, 20, 20, 0.5);
+        }
+
+        .video-editing-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+
+        .video-editing-text {
+            text-align: center;
+        }
+
+        /* Motion Graphics Section */
+        .motion-graphics {
+            background: var(--black);
+        }
+
+        /* Graphic Design Section */
+        .graphic-design {
+            background: rgba(20, 20, 20, 0.5);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--black);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image {
+            height: 400px;
+            background: linear-gradient(45deg, var(--red), var(--dark-red));
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+        }
+
+        .about-text {
+            text-align: left;
+        }
+
+        .about-description {
+            color: var(--light-gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .about-list {
+            margin-bottom: 30px;
+            list-style: none;
+        }
+
+        .about-item {
+            color: var(--light-gray);
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .about-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--red);
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+
+            .about-text {
+                text-align: center;
+            }
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: rgba(20, 20, 20, 0.5);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--red);
+        }
+
+        .testimonial-content {
+            color: var(--gray);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            margin-bottom: 15px;
+        }
+
+        .author-name {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .author-role {
+            color: var(--red);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-rating {
+            color: var(--red);
+        }
+
+        .star {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--black);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--gray);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--red);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+        }
+
+        .info-title {
+            color: var(--red);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                margin-top: 40px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-black);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            color: var(--white);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: var(--red);
+        }
+
+        .footer-text {
+            color: var(--light-gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            color: var(--light-gray);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--red);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--light-gray);
+            margin-bottom: 10px;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .footer-link:hover {
+            color: var(--red);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .footer-copy {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="logo">Syx<span>Studio</span></a>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#video-editing" class="nav-link">Video Editing</a>
+                <a href="#motion-graphics" class="nav-link">Motion Graphics</a>
+                <a href="#graphic-design" class="nav-link">Graphic Design</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <p class="hero-subtitle">Premium Creative Services</p>
+                <h1 class="hero-title">Elevate Your <span class="highlight">Brand</span> With Our Solutions</h1>
+                <p class="hero-text">
+                    We provide cutting-edge creative services to help your business grow and 
+                    stand out in the digital world.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                    <a href="#services" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">What We Offer</p>
+                <h2 class="section-title">Our <span class="highlight">Services</span></h2>
+            </div>
+            
+            <div class="services-grid">
+                <a href="#video-editing" class="service-card-link">
+                    <div class="service-card fade-in-up delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="service-title">Video Editing</h3>
+                        <p class="service-description">
+                            Professional video editing services for commercials, social media, and corporate videos.
+                        </p>
+                    </div>
+                </a>
+                
+                <a href="#motion-graphics" class="service-card-link">
+                    <div class="service-card fade-in-up delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3 class="service-title">Motion Graphics</h3>
+                        <p class="service-description">
+                            Engaging animated graphics for explainer videos, advertisements, and presentations.
+                        </p>
+                    </div>
+                </a>
+                
+                <a href="#graphic-design" class="service-card-link">
+                    <div class="service-card fade-in-up delay-3">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="service-title">Graphic Design</h3>
+                        <p class="service-description">
+                            Stunning visual designs for branding, marketing materials, and digital assets.
+                        </p>
+                    </div>
+                </a>
+                
+                <a href="#" class="service-card-link">
+                    <div class="service-card fade-in-up">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="service-title">Web Development</h3>
+                        <p class="service-description">
+                            Custom websites built with modern technologies for optimal performance.
+                        </p>
+                    </div>
+                </a>
+
+                <a href="#" class="service-card-link">
+                    <div class="service-card fade-in-up delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="service-title">Mobile Apps</h3>
+                        <p class="service-description">
+                            Cross-platform mobile applications for iOS and Android with seamless performance.
+                        </p>
+                    </div>
+                </a>
+
+                <a href="#" class="service-card-link">
+                    <div class="service-card fade-in-up delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="service-title">Digital Marketing</h3>
+                        <p class="service-description">
+                            Comprehensive strategies to boost your online presence and reach more customers.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Editing Showcase -->
+    <section class="video-editing" id="video-editing">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Our Work</p>
+                <h2 class="section-title">Video Editing <span class="highlight">Showcase</span></h2>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="montages">Montages</button>
+                <button class="tab-btn" data-tab="long-form">Long Form</button>
+                <button class="tab-btn" data-tab="short-form">Short Form</button>
+            </div>
+            
+            <div class="tab-content active" id="montages">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1XdQIHDU1isDXh0geZ9K-V_WBwgYUYWYc/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1Xo4dDcKLD-OB8rrZkoCRnjCzTgqO3nPN/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-2">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1TSnrqBXM6dClD-nW6ILEoNAiUiQ2YuB_/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+    
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="long-form">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1FpBAal6ohRDL7uWOCSvc7pK4Y5dww0FH/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1XjRy2xE_jk-e1W3ScDZiE3XMKWfwHQJS/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="short-form">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1WgZMs7ZBnbFOjTUw31vSKtV1HA3RVWo2/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1S8HBHaoDj7anUFpyA8eHNUJhzeaMj1vz/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-2">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1Wg49QAUlmCGnFqw5xCxE3lwt54l-8nQ-/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-editing-text fade-in-up delay-3">
+                <h3 class="section-title" style="font-size: 2rem; margin-bottom: 20px; text-align: center;">Professional <span class="highlight">Video Editing</span></h3>
+                <p class="about-description" style="text-align: center;">
+                    Our video editing team transforms raw footage into compelling visual stories. 
+                    We specialize in color grading, sound design, and seamless transitions to 
+                    create videos that captivate your audience.
+                </p>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="#contact" class="btn btn-primary">Get a Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Motion Graphics Showcase -->
+    <section class="motion-graphics" id="motion-graphics">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Our Work</p>
+                <h2 class="section-title">Motion Graphics <span class="highlight">Showcase</span></h2>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="motion-all">All Projects</button>
+                <button class="tab-btn" data-tab="motion-ads">Advertisements</button>
+                <button class="tab-btn" data-tab="motion-explainer">Explainer Videos</button>
+            </div>
+            
+            <div class="tab-content active" id="motion-all">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/15jnD4JDwYeFAXNTDPg1aJTY5juYrgowR/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1_hBFnfpRlib8dVl35YVQGjgfAp5I9MeI/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-2">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1-1uK8yhaRXOK9jqRzeHBeckoyptC6hBY/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-3">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1_X6wkg7UviOh89jVcg6_hHGsyJhCYkEm/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1OtQZnooNz7GD9xZ9GliugL7xt1fZ6Rk2/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1ONPyfCkewAaUAhCuUDEykq3tF1v_lozY/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="motion-ads">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/15jnD4JDwYeFAXNTDPg1aJTY5juYrgowR/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1OtQZnooNz7GD9xZ9GliugL7xt1fZ6Rk2/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-2">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1ONPyfCkewAaUAhCuUDEykq3tF1v_lozY/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="motion-explainer">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1_hBFnfpRlib8dVl35YVQGjgfAp5I9MeI/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1-1uK8yhaRXOK9jqRzeHBeckoyptC6hBY/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-2">
+                        <div class="video-container">
+                            <iframe src="https://drive.google.com/file/d/1_X6wkg7UviOh89jVcg6_hHGsyJhCYkEm/preview?usp=sharing" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-editing-text fade-in-up">
+                <h3 class="section-title" style="font-size: 2rem; margin-bottom: 20px; text-align: center;">Dynamic <span class="highlight">Motion Graphics</span></h3>
+                <p class="about-description" style="text-align: center;">
+                    Our motion graphics bring your ideas to life with smooth animations and engaging visuals.
+                    Perfect for explainer videos, advertisements, and social media content that stands out.
+                </p>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="#contact" class="btn btn-primary">Get a Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Graphic Design Showcase -->
+    <section class="graphic-design" id="graphic-design">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Our Work</p>
+                <h2 class="section-title">Graphic Design <span class="highlight">Showcase</span></h2>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="social-media">Social Media Designs</button>
+                <button class="tab-btn" data-tab="branding">Branding</button>
+            </div>
+            
+            <div class="tab-content active" id="social-media">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <img src="https://drive.google.com/thumbnail?id=1YA2rtPbJx_yrLbaGW15xZhCvTDzbFxqT&sz=w1000" 
+                             alt="Social Media Design 1"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <img src="https://drive.google.com/thumbnail?id=1YSDlM_dATV9Mz8nrJp7z3-anuNrUMFGP&sz=w1000" 
+                             alt="Social Media Design 2"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-2">
+                        <img src="https://drive.google.com/thumbnail?id=1YFtAXyZZ2w6AqW2DgmmWbiXFslL1BHtf&sz=w1000" 
+                             alt="Social Media Design 3"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-3">
+                        <img src="https://drive.google.com/thumbnail?id=1YXBrgwcBP6lcyONVDRnLJnhsJZXf_W8v&sz=w1000" 
+                             alt="Social Media Design 4"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                    <div class="auto-display-item fade-in-up">
+                        <img src="https://drive.google.com/thumbnail?id=1YDd_NWGUzJvz6zZNW0gm-vy-geMKIHmv&sz=w1000" 
+                             alt="Social Media Design 5"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <img src="https://drive.google.com/thumbnail?id=1SqnDafzIvLWkHx3EjdR39jBBE9RSefPq&sz=w1000" 
+                             alt="Social Media Design 6"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="branding">
+                <div class="tab-grid">
+                    <div class="auto-display-item fade-in-up">
+                        <img src="https://drive.google.com/thumbnail?id=15NuHmjN7s5_mL0VrblGhSj0d82JcMlQv&sz=w1000" 
+                             alt="Branding Design 1"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                    <div class="auto-display-item fade-in-up delay-1">
+                        <img src="https://drive.google.com/thumbnail?id=15C05qWI0A44sgXGGhfmRonDjjJuUoHqh&sz=w1000" 
+                             alt="Branding Design 2"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+Not+Available';">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-editing-text fade-in-up">
+                <h3 class="section-title" style="font-size: 2rem; margin-bottom: 20px; text-align: center;">Creative <span class="highlight">Graphic Design</span></h3>
+                <p class="about-description" style="text-align: center;">
+                    Our graphic design services create visually stunning assets that communicate your brand's message effectively.
+                    From social media graphics to complete branding packages, we've got you covered.
+                </p>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="#contact" class="btn btn-primary">Get a Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image fade-in-up"></div>
+                <div class="about-text fade-in-up delay-1">
+                    <p class="section-subtitle">About Us</p>
+                    <h2 class="section-title">Why Choose <span class="highlight">SyxStudio</span></h2>
+                    <p class="about-description">
+                        We are a team of passionate creative professionals dedicated to delivering 
+                        exceptional digital solutions. Our approach combines artistic vision with 
+                        technical expertise to create products that stand out.
+                    </p>
+                    <ul class="about-list">
+                        <li class="about-item">10+ Years of Creative Experience</li>
+                        <li class="about-item">100+ Successful Projects</li>
+                        <li class="about-item">Dedicated Support Team</li>
+                        <li class="about-item">Cutting-Edge Technologies</li>
+                        <li class="about-item">Client-Focused Approach</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Client Feedback</p>
+                <h2 class="section-title">What Our <span class="highlight">Clients</span> Say</h2>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p class="testimonial-content">
+                        'SyxStudio transformed our online presence completely. Their team delivered beyond our expectations.'
+                    </p>
+                    <div class="testimonial-author">
+                        <h4 class="author-name">Sarah Johnson</h4>
+                        <p class="author-role">CEO, TechStart</p>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card fade-in-up delay-1">
+                    <p class="testimonial-content">
+                        'The video editing work they did for our campaign increased engagement by 300%. Amazing work!'
+                    </p>
+                    <div class="testimonial-author">
+                        <h4 class="author-name">Michael Chen</h4>
+                        <p class="author-role">Marketing Director</p>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card fade-in-up delay-2">
+                    <p class="testimonial-content">
+                        'Their motion graphics gave our brand a fresh, modern look that helped us stand out from competitors.'
+                    </p>
+                    <div class="testimonial-author">
+                        <h4 class="author-name">Emily Rodriguez</h4>
+                        <p class="author-role">Founder, DesignHub</p>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Get In Touch</p>
+                <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
+            </div>
+            
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" name="message" rows="5" class="form-textarea" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+                
+                <div class="contact-info">
+                    <div class="info-item">
+                        <h3 class="info-title">Email</h3>
+                        <p class="info-text">studiosyxx@gmail.com</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h3 class="info-title">Phone</h3>
+                        <p class="info-text">+23490100937</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h3 class="info-title">Address</h3>
+                        <p class="info-text">123 Creative Ave, Digital City</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">Syx<span>Studio</span></div>
+                    <p class="footer-text">
+                        We provide premium creative services to help businesses grow and succeed in the digital world.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/syxstudio_?igsh=bXZnOGxqd2xmZjEy" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <a href="#home" class="footer-link">Home</a>
+                    <a href="#services" class="footer-link">Services</a>
+                    <a href="#video-editing" class="footer-link">Video Editing</a>
+                    <a href="#motion-graphics" class="footer-link">Motion Graphics</a>
+                    <a href="#graphic-design" class="footer-link">Graphic Design</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Services</h3>
+                    <a href="#video-editing" class="footer-link">Video Editing</a>
+                    <a href="#motion-graphics" class="footer-link">Motion Graphics</a>
+                    <a href="#graphic-design" class="footer-link">Graphic Design</a>
+                    <a href="#" class="footer-link">Web Development</a>
+                    <a href="#" class="footer-link">Digital Marketing</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact</h3>
+                    <p class="footer-text">studiosyxx@gmail.com</p>
+                    <p class="footer-text">+23490100937</p>
+                    <p class="footer-text">123 Creative Ave, Digital City</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copy">&copy; <span id="year"></span> SyxStudio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            hamburger.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Form Submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send the data to a server
+            console.log('Form submitted:', { name, email, message });
+            
+            // Show success message
+            alert('Thank you for your message! We will get back to you soon.');
+            
+            // Reset form
+            contactForm.reset();
+        });
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Animation on scroll
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        // Run once on page load
+        animateOnScroll();
+
+        // Run on scroll
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Enhanced Tab Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all tab contents as hidden except the first one
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach((content, index) => {
+                if (index !== 0) {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+
+            // Tab switching functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons in the same tab group
+                    const tabGroup = this.closest('.tabs');
+                    tabGroup.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents in this section
+                    const section = this.closest('section');
+                    section.querySelectorAll('.tab-content').forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    // Show the selected tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
