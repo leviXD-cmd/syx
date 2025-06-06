@@ -1469,16 +1469,6 @@
 
         // Enhanced Tab Functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize all tab contents as hidden except the first one
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach((content, index) => {
-                if (index !== 0) {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
-
             // Tab switching functionality
             const tabBtns = document.querySelectorAll('.tab-btn');
             tabBtns.forEach(btn => {
@@ -1488,19 +1478,22 @@
                     tabGroup.querySelectorAll('.tab-btn').forEach(btn => {
                         btn.classList.remove('active');
                     });
-                    
+
                     // Add active class to clicked button
                     this.classList.add('active');
-                    
+
                     // Hide all tab contents in this section
                     const section = this.closest('section');
                     section.querySelectorAll('.tab-content').forEach(content => {
-                        content.style.display = 'none';
+                        content.classList.remove('active');
                     });
-                    
+
                     // Show the selected tab content
                     const tabId = this.getAttribute('data-tab');
-                    document.getElementById(tabId).style.display = 'block';
+                    const tabContent = section.querySelector(`#${tabId}`);
+                    if (tabContent) {
+                        tabContent.classList.add('active');
+                    }
                 });
             });
         });
